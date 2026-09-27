@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Sale;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -11,25 +12,71 @@ class DashboardController extends Controller
     {
         $userId = auth()->id();
 
-        // ============ MÉTRICAS ============
-        
-        // 1. Cantidad total de ventas (número)
+        // ============ MÉTRICAS PRINCIPALES ============
+
         $totalVentas = Sale::where('user_id', $userId)->count();
-
-        // 2. Cantidad total de productos (número)
         $totalProductos = Product::count();
-
-        // 3. Total vendido en dinero ($)
         $totalVendido = Sale::where('user_id', $userId)->sum('total') ?? 0;
 
-        // 4. Valor del inventario disponible ($)
-        // Suma de (precio × stock) de todos los productos
         $valorInventario = Product::selectRaw('SUM(price * stock) as total')
             ->value('total') ?? 0;
 
-        // ============ GRÁFICOS ============
+        // ============ NUEVAS MÉTRICAS ============
 
-        // Ventas por mes
+        // Ventas de hoy
+        $ventasHoy = Sale::where('user_id', $userId)
+            ->whereDate('created_at', today())
+            ->sum('total') ?? 0;
+
+        // Ticket promedio
+        $ticketPromedio = $totalVentas > 0 
+            ? $totalVendido / $totalVentas 
+            : 0;
+
+        // Top 5 productos más vendidos
+        $topProductos = DB::table('product_sale')
+            ->join('products', 'product_sale.product_id', '=', 'products.id')
+            ->join('sales', 'product_sale.sale_id', '=', 'sales.id')
+            ->where('sales.user_id', $userId)
+            ->select(
+                'products.name',
+                DB::raw('SUM(product_sale.quantity) as total_vendido'),
+                DB::raw('SUM(product_sale.subtotal) as total_ingresos')
+            )
+            ->groupBy('products.id', 'products.name')
+            ->orderByDesc('total_vendido')
+            ->limit(5)
+            ->get();
+
+        // Productos con stock bajo (≤ 5)
+        $stockBajo = Product::where('stock', '<=', 5)
+            ->where('stock', '>', 0)
+            ->orderBy('stock')
+            ->get();
+
+        // Productos agotados
+        $agotados = Product::where('stock', 0)->count();
+
+        // Ventas de los últimos 7 días
+        $ventasSemana = Sale::selectRaw('DATE(created_at) as dia, SUM(total) as total')
+            ->where('user_id', $userId)
+            ->where('created_at', '>=', now()->subDays(6)->startOfDay())
+            ->groupBy('dia')
+            ->orderBy('dia')
+            ->get();
+
+        // Rellenar los días sin ventas
+        $diasSemana = [];
+        $labels7Dias = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $fecha = now()->subDays($i)->format('Y-m-d');
+            $labels7Dias[] = now()->subDays($i)->translatedFormat('D d/m');
+            $ventaDia = $ventasSemana->firstWhere('dia', $fecha);
+            $diasSemana[] = $ventaDia ? $ventaDia->total : 0;
+        }
+
+        // ============ DATOS PARA GRÁFICOS EXISTENTES ============
+
         $ventasMes = Sale::selectRaw('MONTH(created_at) as mes, SUM(total) as total')
             ->where('user_id', $userId)
             ->whereYear('created_at', now()->year)
@@ -44,7 +91,6 @@ class DashboardController extends Controller
             'data' => $ventasMes->pluck('total'),
         ];
 
-        // Stock de productos
         $productos = Product::orderBy('name')->get();
 
         $productosData = [
@@ -58,7 +104,14 @@ class DashboardController extends Controller
             'totalVentas',
             'totalProductos',
             'totalVendido',
-            'valorInventario'
+            'valorInventario',
+            'ventasHoy',
+            'ticketPromedio',
+            'topProductos',
+            'stockBajo',
+            'agotados',
+            'labels7Dias',
+            'diasSemana'
         ));
     }
 }
