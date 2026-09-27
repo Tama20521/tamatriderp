@@ -11,6 +11,24 @@ class DashboardController extends Controller
     {
         $userId = auth()->id();
 
+        // ============ MÉTRICAS ============
+        
+        // 1. Cantidad total de ventas (número)
+        $totalVentas = Sale::where('user_id', $userId)->count();
+
+        // 2. Cantidad total de productos (número)
+        $totalProductos = Product::count();
+
+        // 3. Total vendido en dinero ($)
+        $totalVendido = Sale::where('user_id', $userId)->sum('total') ?? 0;
+
+        // 4. Valor del inventario disponible ($)
+        // Suma de (precio × stock) de todos los productos
+        $valorInventario = Product::selectRaw('SUM(price * stock) as total')
+            ->value('total') ?? 0;
+
+        // ============ GRÁFICOS ============
+
         // Ventas por mes
         $ventasMes = Sale::selectRaw('MONTH(created_at) as mes, SUM(total) as total')
             ->where('user_id', $userId)
@@ -34,15 +52,13 @@ class DashboardController extends Controller
             'data' => $productos->pluck('stock'),
         ];
 
-        // Métricas rápidas
-        $totalVentas = Sale::where('user_id', $userId)->count();
-        $totalProductos = Product::count();
-
         return view('dashboard', compact(
             'ventasData',
             'productosData',
             'totalVentas',
-            'totalProductos'
+            'totalProductos',
+            'totalVendido',
+            'valorInventario'
         ));
     }
 }
