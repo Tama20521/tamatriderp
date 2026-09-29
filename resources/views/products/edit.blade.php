@@ -12,7 +12,18 @@
                 <form action="{{ route('products.update', $product) }}" method="POST">
                     @csrf
                     @method('PUT')
-
+                      <div class="mb-4">
+    <label class="block font-semibold mb-2">Proveedor</label>
+    <select name="supplier_id" class="w-full border rounded px-3 py-2">
+        <option value="">-- Sin proveedor --</option>
+        @foreach($suppliers as $supplier)
+            <option value="{{ $supplier->id }}" {{ old('supplier_id', $product->supplier_id) == $supplier->id ? 'selected' : '' }}>
+                {{ $supplier->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('supplier_id') <small class="text-red-500">{{ $message }}</small> @enderror
+</div>
                     <div class="mb-4">
                         <label class="block font-semibold mb-2">Nombre</label>
                         <input type="text" name="name" value="{{ old('name', $product->name) }}"

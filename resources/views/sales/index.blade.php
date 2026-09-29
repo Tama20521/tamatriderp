@@ -32,6 +32,7 @@
                         <tr>
                             <th class="px-4 py-2 text-left">#</th>
                             <th class="px-4 py-2 text-left">Fecha</th>
+                            <th class="px-4 py-2 text-left">Cliente</th>
                             <th class="px-4 py-2 text-left">Productos</th>
                             <th class="px-4 py-2 text-left">Total</th>
                         </tr>
@@ -41,6 +42,13 @@
                             <tr class="border-b hover:bg-gray-50">
                                 <td class="px-4 py-2">{{ $sale->id }}</td>
                                 <td class="px-4 py-2">{{ $sale->created_at->format('d/m/Y H:i') }}</td>
+                                <td class="px-4 py-2 text-sm">
+    @if($sale->client)
+        <span class="font-semibold">{{ $sale->client->name }}</span>
+    @else
+        <span class="text-gray-400 italic">Consumidor Final</span>
+    @endif
+</td>
                                 <td class="px-4 py-2">
                                     <ul class="list-disc list-inside text-sm">
                                         @foreach($sale->products as $product)
@@ -58,7 +66,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-4 text-gray-500">
+                                <td colspan="5" class="text-center py-4 text-gray-500">
                                     No hay ventas registradas
                                 </td>
                             </tr>

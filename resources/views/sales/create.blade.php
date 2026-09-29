@@ -24,6 +24,25 @@
             @else
                 <form action="{{ route('sales.store') }}" method="POST" id="saleForm" class="bg-white shadow rounded-lg p-6">
                     @csrf
+              {{-- Selector de Cliente --}}
+<div class="mb-6 bg-gray-50 p-4 rounded">
+    <label class="block font-semibold mb-2">Cliente (opcional)</label>
+    <select name="client_id" class="w-full border rounded px-3 py-2">
+        <option value="">-- Consumidor Final --</option>
+        @foreach($clients as $client)
+            <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
+                {{ $client->name }}
+                @if($client->document) — {{ $client->document }} @endif
+            </option>
+        @endforeach
+    </select>
+    <p class="text-xs text-gray-500 mt-1">
+        ¿No encuentras al cliente? 
+        <a href="{{ route('clients.create') }}" class="text-blue-500 underline" target="_blank">
+            Crear nuevo cliente
+        </a>
+    </p>
+</div>
 
                     <table class="w-full mb-4" id="productsTable">
                         <thead class="bg-gray-800 text-white">

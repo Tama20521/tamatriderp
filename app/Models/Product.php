@@ -9,12 +9,22 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'stock'];
+    protected $fillable = [
+        'supplier_id',
+        'name',
+        'price',
+        'stock',
+    ];
 
     protected $casts = [
         'price' => 'decimal:2',
         'stock' => 'integer',
     ];
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
 
     public function sales()
     {

@@ -36,19 +36,20 @@ class ProductController extends Controller
         return view('products.index', compact('products'));
     }
 
-    public function create()
-    {
-        return view('products.create');
-    }
+   public function create()
+{
+    $suppliers = \App\Models\Supplier::where('active', true)->orderBy('name')->get();
+    return view('products.create', compact('suppliers'));
+}
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'  => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-        ]);
-
+      $validated = $request->validate([
+        'supplier_id' => 'nullable|exists:suppliers,id',
+        'name'        => 'required|string|max:255',
+        'price'       => 'required|numeric|min:0',
+        'stock'       => 'required|integer|min:0',
+      ]);
         Product::create($validated);
 
         return redirect()
@@ -57,13 +58,15 @@ class ProductController extends Controller
     }
 
     public function edit(Product $product)
-    {
-        return view('products.edit', compact('product'));
-    }
+{
+    $suppliers = \App\Models\Supplier::where('active', true)->orderBy('name')->get();
+    return view('products.edit', compact('product', 'suppliers'));
+}
 
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
+            'supplier_id' => 'nullable|exists:suppliers,id',
             'name'  => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',

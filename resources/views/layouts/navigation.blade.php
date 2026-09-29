@@ -9,7 +9,7 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
-                 <!-- Navigation Links -->
+              <!-- Navigation Links -->
 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
         {{ __('Dashboard') }}
@@ -20,12 +20,18 @@
     <x-nav-link :href="route('sales.index')" :active="request()->routeIs('sales.*')">
         {{ __('Ventas') }}
     </x-nav-link>
+    <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
+        {{ __('Clientes') }}
+    </x-nav-link>
     @if(auth()->user()->isAdmin())
+        <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
+            {{ __('🏭 Proveedores') }}
+        </x-nav-link>
         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
             {{ __('👥 Usuarios') }}
         </x-nav-link>
     @endif
-   </div>
+</div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">

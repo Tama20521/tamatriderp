@@ -22,60 +22,63 @@ class SaleController extends Controller
     public function create()
     {
         $products = Product::where('stock', '>', 0)->orderBy('name')->get();
+        $clients = \App\Models\Client::orderBy('name')->get(); 
 
-        return view('sales.create', compact('products'));
+        return view('sales.create', compact('products','clients'));
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'products'            => 'required|array|min:1',
-            'products.*.id'       => 'required|exists:products,id',
-            'products.*.quantity' => 'required|integer|min:1',
+{
+    $validated = $request->validate([
+        'client_id'           => 'nullable|exists:clients,id',
+        'products'            => 'required|array|min:1',
+        'products.*.id'       => 'required|exists:products,id',
+        'products.*.quantity' => 'required|integer|min:1',
+    ]);
+
+    try {
+        DB::beginTransaction();
+
+        $sale = Sale::create([
+            'user_id'   => auth()->id(),
+            'client_id' => $validated['client_id'] ?? null,
+            'total'     => 0,
         ]);
 
-        try {
-            DB::beginTransaction();
+        $total = 0;
 
-            $sale = Sale::create([
-                'user_id' => auth()->id(),
-                'total'   => 0,
-            ]);
+        foreach ($validated['products'] as $item) {
+            $product = Product::lockForUpdate()->findOrFail($item['id']);
 
-            $total = 0;
-
-            foreach ($validated['products'] as $item) {
-                $product = Product::lockForUpdate()->findOrFail($item['id']);
-
-                if ($product->stock < $item['quantity']) {
-                    throw new \Exception("Stock insuficiente para: {$product->name}");
-                }
-
-                $subtotal = $product->price * $item['quantity'];
-                $total += $subtotal;
-
-                $sale->products()->attach($product->id, [
-                    'quantity' => $item['quantity'],
-                    'subtotal' => $subtotal,
-                ]);
-
-                $product->decrement('stock', $item['quantity']);
+            if ($product->stock < $item['quantity']) {
+                throw new \Exception("Stock insuficiente para: {$product->name}");
             }
 
-            $sale->update(['total' => $total]);
+            $subtotal = $product->price * $item['quantity'];
+            $total += $subtotal;
 
-            DB::commit();
+            $sale->products()->attach($product->id, [
+                'quantity' => $item['quantity'],
+                'subtotal' => $subtotal,
+            ]);
 
-            return redirect()
-                ->route('sales.index')
-                ->with('success', 'Venta registrada correctamente.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return back()
-                ->withInput()
-                ->with('error', 'Error al registrar la venta: ' . $e->getMessage());
+            $product->decrement('stock', $item['quantity']);
         }
+
+        $sale->update(['total' => $total]);
+
+        DB::commit();
+
+        return redirect()
+            ->route('sales.index')
+            ->with('success', 'Venta registrada correctamente.');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+
+        return back()
+            ->withInput()
+            ->with('error', 'Error al registrar la venta: ' . $e->getMessage());
     }
+  }
 }
