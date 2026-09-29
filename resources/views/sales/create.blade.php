@@ -43,8 +43,32 @@
         </a>
     </p>
 </div>
+{{-- Tipo de Pago --}}
+<div class="mb-6 bg-gray-50 p-4 rounded">
+    <label class="block font-semibold mb-2">Tipo de Pago</label>
+    <div class="flex gap-4">
+        <label class="flex items-center cursor-pointer">
+            <input type="radio" name="payment_type" value="contado" 
+                   {{ old('payment_type', 'contado') === 'contado' ? 'checked' : '' }}
+                   class="mr-2 payment-type-radio">
+            <span>💵 Contado</span>
+        </label>
+        <label class="flex items-center cursor-pointer">
+            <input type="radio" name="payment_type" value="credito" 
+                   {{ old('payment_type') === 'credito' ? 'checked' : '' }}
+                   class="mr-2 payment-type-radio">
+            <span>📅 Crédito</span>
+        </label>
+    </div>
 
-                    <table class="w-full mb-4" id="productsTable">
+    <div id="due-date-field" class="mt-3" style="display: none;">
+        <label class="block font-semibold mb-2">Fecha de Vencimiento</label>
+        <input type="date" name="due_date" value="{{ old('due_date', now()->addDays(30)->format('Y-m-d')) }}"
+               class="border rounded px-3 py-2">
+        <p class="text-xs text-gray-500 mt-1">Por defecto: 30 días</p>
+    </div>
+</div>
+         <table class="w-full mb-4" id="productsTable">
                         <thead class="bg-gray-800 text-white">
                             <tr>
                                 <th class="px-3 py-2 text-left">Producto</th>
@@ -157,4 +181,21 @@
 
         updateTotals();
     </script>
+// Mostrar/ocultar fecha de vencimiento
+document.querySelectorAll('.payment-type-radio').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const dueDateField = document.getElementById('due-date-field');
+        if (this.value === 'credito') {
+            dueDateField.style.display = 'block';
+        } else {
+            dueDateField.style.display = 'none';
+        }
+    });
+});
+
+// Ejecutar al cargar (por si se regresa con errores)
+const checkedRadio = document.querySelector('.payment-type-radio:checked');
+if (checkedRadio && checkedRadio.value === 'credito') {
+    document.getElementById('due-date-field').style.display = 'block';
+}
 </x-app-layout>

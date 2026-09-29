@@ -34,6 +34,7 @@
                             <th class="px-4 py-2 text-left">Fecha</th>
                             <th class="px-4 py-2 text-left">Cliente</th>
                             <th class="px-4 py-2 text-left">Productos</th>
+                            <th class="px-4 py-2 text-left">Pago</th>
                             <th class="px-4 py-2 text-left">Total</th>
                         </tr>
                     </thead>
@@ -60,13 +61,34 @@
                                         @endforeach
                                     </ul>
                                 </td>
+                               <td class="px-4 py-2">
+    @if($sale->payment_type === 'contado')
+        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
+            💵 Contado
+        </span>
+    @else
+        @if($sale->payment_status === 'paid')
+            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
+                ✅ Pagado
+            </span>
+        @elseif($sale->payment_status === 'partial')
+            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+                ⏳ Parcial
+            </span>
+        @else
+            <span class="{{ $sale->is_overdue ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800' }} px-2 py-1 rounded text-xs">
+                {{ $sale->is_overdue ? '⚠️ Vencido' : '📅 Pendiente' }}
+            </span>
+        @endif
+    @endif
+</td>
                                 <td class="px-4 py-2 font-bold">
                                     ${{ number_format($sale->total, 2) }}
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-4 text-gray-500">
+                                <td colspan="6" class="text-center py-4 text-gray-500">
                                     No hay ventas registradas
                                 </td>
                             </tr>
