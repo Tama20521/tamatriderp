@@ -32,4 +32,11 @@ class Product extends Model
             ->withPivot('quantity', 'subtotal')
             ->withTimestamps();
     }
+   public function purchases()
+   {
+    return $this->belongsToMany(Purchase::class, 'purchase_product')
+        ->withPivot('quantity', 'unit_cost', 'subtotal')
+        ->withTimestamps();
+   }
+
 }

@@ -9,7 +9,7 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
-             <!-- Navigation Links -->
+            <!-- Navigation Links -->
 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
         {{ __('Dashboard') }}
@@ -21,12 +21,18 @@
         {{ __('Ventas') }}
     </x-nav-link>
     <x-nav-link :href="route('payments.index')" :active="request()->routeIs('payments.*')">
-        {{ __('💰 Por Cobrar') }}
+        {{ __('💰 Cobrar') }}
     </x-nav-link>
     <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
         {{ __('Clientes') }}
     </x-nav-link>
     @if(auth()->user()->isAdmin())
+        <x-nav-link :href="route('purchases.index')" :active="request()->routeIs('purchases.*')">
+            {{ __('📦 Compras') }}
+        </x-nav-link>
+        <x-nav-link :href="route('supplier_payments.index')" :active="request()->routeIs('supplier_payments.*')">
+            {{ __('💸 Pagar') }}
+        </x-nav-link>
         <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
             {{ __('🏭 Proveedores') }}
         </x-nav-link>
