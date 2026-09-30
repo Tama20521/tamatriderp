@@ -18,14 +18,14 @@
             <div class="absolute top-1/3 right-1/4 w-64 h-64 bg-pink-300 opacity-20 rounded-full blur-3xl"></div>
 
             {{-- Logo / Branding --}}
-            <div class="relative z-10 text-center mb-8">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-2xl mb-4">
-                    <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                </div>
-                <h1 class="text-3xl font-bold text-white mb-2">Sistema de Ventas</h1>
-                <p class="text-white/80 text-sm">Gestiona tu negocio de forma inteligente</p>
+           <div class="relative z-10 text-center mb-8">
+           <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-2xl mb-4">
+           <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+          </div>
+          <h1 class="text-3xl font-bold text-white mb-2">TamaTrix ERP</h1>
+           <p class="text-white/80 text-sm">Gestión Empresarial Inteligente</p>
             </div>
 
             {{-- Card del formulario --}}
@@ -35,7 +35,7 @@
 
             {{-- Footer --}}
             <p class="relative z-10 mt-8 text-white/70 text-xs">
-                © {{ date('Y') }} Sistema de Ventas. Todos los derechos reservados.
+                © {{ date('Y') }} TamaTrix ERP - Desarrollado por TamaTechFinance
             </p>
         </div>
     </body>

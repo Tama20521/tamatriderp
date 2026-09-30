@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-800">📊 Dashboard</h2>
-                <p class="text-sm text-gray-500 mt-1">Resumen de tu negocio en tiempo real</p>
-            </div>
+    <div>
+        <h2 class="text-2xl font-bold text-gray-800">📊 Dashboard</h2>
+        <p class="text-sm text-gray-500 mt-1">TamaTrix ERP — Resumen en tiempo real</p>
+    </div>
             <div class="text-right">
                 <p class="text-xs text-gray-500">{{ now()->translatedFormat('l, d \d\e F \d\e Y') }}</p>
             </div>
