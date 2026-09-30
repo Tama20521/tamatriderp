@@ -1,59 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 TamaTrix ERP
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Sistema de Gestión Empresarial Inteligente**
 
-## About Laravel
+Desarrollado por **TamaTechFinance** | Versión 1.0.0 | Septiembre 2026
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📌 Descripción de la Aplicación
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**TamaTrix ERP** es un sistema de planificación de recursos empresariales (Enterprise Resource Planning) desarrollado en **Laravel 12** que permite gestionar de forma integral todas las operaciones comerciales de una pequeña o mediana empresa:
 
-## Learning Laravel
+- Control de inventario y productos
+- Registro de ventas con múltiples productos
+- Gestión de clientes y proveedores
+- Cuentas por cobrar (ventas a crédito con abonos parciales)
+- Cuentas por pagar (compras a crédito con pagos parciales)
+- Dashboard financiero con gráficos en tiempo real
+- Sistema de roles (Administrador / Vendedor)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+El sistema está diseñado con una interfaz moderna, responsiva y fácil de usar, permitiendo a los usuarios gestionar su negocio de manera eficiente desde cualquier dispositivo.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🎯 Problema o Necesidad que Busca Resolver
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Las pequeñas y medianas empresas enfrentan varios desafíos en su gestión diaria:
 
-### Premium Partners
+1. **Falta de control de inventario:** No saber con exactitud qué productos hay disponibles
+2. **Pérdida de ventas por descontrol de stock:** Vender productos que ya no existen
+3. **Desconocimiento de cuentas pendientes:** No saber quién debe dinero ni a quién se le debe
+4. **Falta de información financiera:** No tener visibilidad sobre ingresos, ganancias y tendencias
+5. **Registros manuales propensos a errores:** Cuadernos o Excel con datos inconsistentes
+6. **Imposibilidad de escalar:** Sistemas manuales que no crecen con el negocio
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+**TamaTrix ERP** resuelve todos estos problemas en una sola plataforma integrada, automatizando procesos y proporcionando información en tiempo real para la toma de decisiones.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## ✨ Funcionalidades Principales
 
-## Code of Conduct
+### 🔐 Autenticación y Control de Acceso
+- Registro de usuarios con validación
+- Login con "Recordarme"
+- Recuperación de contraseña
+- **Sistema de roles:** Administrador y Vendedor
+- Middleware de autorización por rol
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 📊 Dashboard Financiero
+- **7 métricas en tiempo real:**
+  - Total de ventas (transacciones)
+  - Total vendido ($)
+  - Total de productos en catálogo
+  - Valor del inventario ($)
+  - Ventas del día ($)
+  - Ticket promedio ($)
+  - Productos agotados (con alerta)
+- **3 gráficos interactivos con Chart.js:**
+  - Ventas por mes
+  - Ventas últimos 7 días
+  - Stock de productos
+- **Top 5 productos más vendidos** con medallas
 
-## Security Vulnerabilities
+### 📦 Gestión de Productos (CRUD completo)
+- Crear, listar, editar y eliminar productos
+- Filtros avanzados: búsqueda por nombre, rango de precios, disponibilidad
+- Asignación de proveedor a cada producto
+- Indicador visual de stock (verde/amarillo/rojo)
+- Paginación de resultados
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 🛒 Punto de Venta
+- Selección múltiple de productos (agregar varias líneas)
+- Cálculo automático de subtotales y total con JavaScript
+- **Tipos de pago:** Contado o Crédito
+- Fecha de vencimiento configurable (para crédito)
+- Descuento automático de stock al confirmar
+- Validación de stock disponible antes de vender
+- Transacciones seguras con rollback
 
-## License
+### 👥 Gestión de Clientes
+- CRUD completo: nombre, email, teléfono, documento, dirección
+- Búsqueda por nombre, email, teléfono o documento
+- Historial de compras por cliente
+- Protección: no se puede eliminar cliente con ventas
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 🏭 Gestión de Proveedores
+- CRUD completo con datos de contacto
+- Estado activo/inactivo con filtros
+- Listado de productos por proveedor
+- Cálculo de valor de inventario por proveedor
+- Protección: no se puede eliminar proveedor con productos
+
+### 💰 Cuentas por Cobrar
+- Listado de ventas a crédito con filtros por estado
+- Métricas: total por cobrar, total vencido, facturas pendientes
+- Registro de abonos parciales con método de pago
+- Historial de abonos por venta
+- Estados automáticos: Pendiente / Parcial / Pagado / Vencido
+
+### 📥 Compras a Proveedores
+- Registro de compras con múltiples productos
+- Costo unitario por línea
+- Aumento automático de stock
+- Generación automática de cuentas por pagar
+
+### 💸 Cuentas por Pagar
+- Listado de compras a crédito con filtros
+- Registro de pagos parciales
+- Historial de pagos por compra
+- Alertas de vencimiento
+
+### 🎨 Diseño Moderno
+- Login con gradiente y animaciones
+- Navegación con iconos SVG personalizados
+- Dashboard con tarjetas de gradiente
+- Interfaz 100% responsiva (móvil, tablet, escritorio)
